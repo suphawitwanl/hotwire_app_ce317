@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :categories
   get "/tasks", to: "tasks#index"
   post "/tasks", to: "tasks#create"
 

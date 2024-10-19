@@ -10,7 +10,34 @@ body {
     color: #333;
 }
 
+/* .container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+} */
+
 .container {
+    max-width: 100%;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between; /* To add spacing between the divs */
+    align-items: center; /* Align items vertically centered */
+    gap: 20px; /* Optional: Adds space between the items */
+}
+
+.child {
+    flex: 1; /* This makes each child div take an equal amount of space */
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
     max-width: 600px;
     margin: 50px auto;
     background-color: #fff;
@@ -19,6 +46,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
+
 
 h1 {
     font-size: 36px;

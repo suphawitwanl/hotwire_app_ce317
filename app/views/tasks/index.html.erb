@@ -16,35 +16,83 @@
 
 <body>
     <div class="container">
-        <h1>TODOS</h1>
-        <div class="tabs">
-            <%= link_to "Incomplete", tasks_path, class: "tab #{'active' if params[:get_status].nil?}", id: "incomplete-tab", method: :patch, title: "Incomplete Tab" %>
-            <%= link_to "Complete", list_completed_tasks_path("completed"), class: "tab #{'active' if params[:get_status] == 'completed'}", id: "complete-tab",style: "margin-left: 50px", method: :patch, title: "Complete Tab" %>
+        <div class="child">
+            <h1>TODOS</h1>
+            <div class="tabs">
+                <%= link_to "Incomplete", tasks_path, class: "tab #{'active' if params[:get_status].nil?}", id: "incomplete-tab", method: :patch, title: "Incomplete Tab" %>
+                <%= link_to "Complete", list_completed_tasks_path("completed"), class: "tab #{'active' if params[:get_status] == 'completed'}", id: "complete-tab",style: "margin-left: 50px", method: :patch, title: "Complete Tab" %>
 
-        </div>
-
-        <%= form_with model: @task, data: {turbo: false} do |f| %>
-        <%= f.label :name, "Name", style: "text-align: left;" %>
-
-        <div class="input-container">
-
-        <%= f.text_field :name, placeholder: "Enter task name", autocomplete: "off" %>
-        <%= f.hidden_field :status, value: "incomplete", autocomplete: "off" %>
-        <%= f.submit "Create Todo" %>
-        <% end %>
-        </div>
-
-        <div class="todo-list">
-        <% @all_tasks.each do |task_name| %>
-            <div class="todo-item">
-                <%= task_name.name %>
-                <%= render "error_message" %>
-                <div class="todo-actions">
-                    <%= link_to "✔️", complete_task_path(task_name), class: "check-btn", method: :patch, title: "Mark as complete" %>
-                    <button class="delete-btn">🗑️</button>
-                </div>
             </div>
-        <% end %>
+
+            <%= form_with model: @task, data: {turbo: false} do |f| %>
+            <%= f.label :name, "Name", style: "text-align: left;" %>
+
+            <div class="input-container">
+
+            <%= f.text_field :name, placeholder: "Enter task name", autocomplete: "off" %>
+            <%= f.hidden_field :status, value: "incomplete", autocomplete: "off" %>
+            <%= f.submit "Create Todo" %>
+            <% end %>
+            </div>
+
+            <div class="todo-list">
+            <% @all_tasks.each do |task_name| %>
+                <div class="todo-item">
+                    <%= task_name.name %>
+                    <%= render "error_message" %>
+                    <div class="todo-actions">
+                        <%= link_to "✔️", complete_task_path(task_name), class: "check-btn", method: :patch, title: "Mark as complete" %>
+                        <button class="delete-btn">🗑️</button>
+                    </div>
+                </div>
+            <% end %>
+            </div>
+        </div>
+
+
+        <%# this is category %>
+        <div class="child">
+            <h1>Category</h1>
+            <div class="tabs">
+                <%= link_to "Incomplete", tasks_path, class: "tab #{'active' if params[:get_status].nil?}", id: "incomplete-tab", method: :patch, title: "Incomplete Tab" %>
+                <%= link_to "Complete", list_completed_tasks_path("completed"), class: "tab #{'active' if params[:get_status] == 'completed'}", id: "complete-tab",style: "margin-left: 50px", method: :patch, title: "Complete Tab" %>
+
+            </div>
+
+            <%= form_with model: @task, data: {turbo: false} do |f| %>
+            <%= f.label :name, "Name", style: "text-align: left;" %>
+
+            <div class="input-container">
+
+            <%= f.text_field :name, placeholder: "Enter task name", autocomplete: "off" %>
+            <%= f.hidden_field :status, value: "incomplete", autocomplete: "off" %>
+            <%= f.submit "Create Todo" %>
+            <% end %>
+            </div>
+
+            <div class="todo-list">
+            <%= form_with model: @task, data: { turbo: false } do |f| %>
+                <div class="input-container">
+                    <%= f.text_field :name, placeholder: "Enter task name", autocomplete: "off" %>
+                    <%= f.hidden_field :status, value: "incomplete", autocomplete: "off" %>
+                    <% if @categories.present? %>
+                        <%= f.select :category_id, @categories.map { |c| [c.category_name, c.id] }, { include_blank: true }, { selected: @categories[1]&.id } %>
+                    <% else %>
+                        <p>No categories available</p>
+                    <% end %>
+                    <%= f.submit "Create Todo" %>
+                </div>
+            <% end %>
+
+            <div class="todo-list">
+                <% if @all_tasks.present? %>
+                    <% @all_tasks.each do |task| %>
+                        <p><%= task.name %> - <%= task.status %></p>
+                    <% end %>
+                <% else %>
+                    <p>No tasks available</p>
+                <% end %>
+            </div>
         </div>
     </div>
 </body>

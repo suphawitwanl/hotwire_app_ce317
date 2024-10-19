@@ -3,6 +3,7 @@ class TasksController < ApplicationController
     @task = Task.new
     @last_task = Task.last
     @all_tasks = Task.where(status: 'incomplete').order(created_at: :asc)
+    @catogories = Category.all
   end
 
   def create
@@ -11,6 +12,8 @@ class TasksController < ApplicationController
       redirect_to tasks_path
     else
       @last_task = Task.last
+      @all_tasks = Task.where(status: 'incomplete').order(created_at: :asc)
+      @categories = Category.all
       render :index
     end
   end
@@ -19,6 +22,7 @@ class TasksController < ApplicationController
     @task = Task.new
     @last_task = Task.last
     @all_tasks = Task.where(status: 'complete').order(created_at: :asc)
+    @categories = Category.all
     render :index
   end
 
@@ -36,6 +40,6 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name, :status)
+    params.require(:task).permit(:name, :status, :category_id)
   end
 end
